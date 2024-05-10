@@ -23,3 +23,6 @@
         path: /app
         state: directory
         mode: '0755'
+
+    - name: download app code
+      ansible.builtin.command: curl -o /tmp/backend.zip https://expense-builds.s3.us-east-1.amazonaws.com/expense-backend-v2.zip
