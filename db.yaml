@@ -20,7 +20,7 @@
         name:
           -PyMySQL
           -cryptography
-        executable: pip3.9
+          executable: pip3.9
 
 #check password already setup or not
     - name: check db connection
@@ -35,3 +35,6 @@
     - name: print output
       ansible.builtin.debug:
         msg: "{{ mysql_connection_output }}"
+
+    - name: setup root password
+     ansible.builtin.command: 
