@@ -2,7 +2,12 @@
   hosts: db
   become: yes
   vars:
-    login_hosts: db.hkinfo.fyi
+    login_hosts: 172.31.46.65
+  vars_prompt:
+    - name: mysql-root_password
+      promt: please enter mysql mysql-root_password
+      pritvate: no
+
   tasks:
     - name: install mysql server
       ansible.builtin.dnf:
@@ -18,15 +23,15 @@
     - name: install python dependencies
       ansible.builtin.pip:
         name:
-          -PyMySQL
-          -cryptography
-          executable: pip3.9
+        - PyMySQL
+        - cryptography
+        executable: pip3.9
 
 #check password already setup or not
     - name: check db connection
       community.mysql.mysql_info:
         login_user: root
-        login_password: ExpenseApp@1
+        login_password: "{{ mysql_root_password }}"
         login_host: "{{ login_hosts }}"
         filter: version
       ignore_errors: yes
@@ -37,4 +42,5 @@
         msg: "{{ mysql_connection_output }}"
 
     - name: setup root password
-     ansible.builtin.command: 
+      ansible.builtin.command: mysql_secure_installation --set-root-pass "{{ mysql_root_password }}"
+      when: mysql_connection_output.failed is True
