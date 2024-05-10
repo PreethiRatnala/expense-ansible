@@ -1,8 +1,10 @@
 - name: configure the backend server
   hosts: backend
+  become: yes
   tasks:
     - name: diable the existing nodejs tasks/modules/collection
       ansible.builtin.command: dnf module disable nodejs -y
+
 
     - name: enable th enodejs:20
       ansible.builtin.command: dnf module enable nodejs:20 -y
