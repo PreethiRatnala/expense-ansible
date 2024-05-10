@@ -6,7 +6,7 @@
   vars_prompt:
     - name: mysql-root_password
       prompt: please enter mysql mysql-root_password
-      pritvate: no
+      private: no
 
   tasks:
     - name: install mysql server
