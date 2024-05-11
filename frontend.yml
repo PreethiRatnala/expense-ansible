@@ -1,4 +1,4 @@
-- name: configure the frontend
+- name: configure the frontend server
   hosts: frontend
   become: yes
   vars:
@@ -8,4 +8,19 @@
   tasks:
     - name: install nginx
       ansible.builtin.dnf:
-        state: l
+        name: nginx
+        state: latest
+
+    - name: start and enable nginx
+      ansible.builtin.systemd_service:
+        name: frontend
+        state: started
+        enabled: yes
+
+    - name: Remove file default html file
+      ansible.builtin.file:
+        path: /usr/share/nginx/html/*
+        state: absent 
+
+   
+
