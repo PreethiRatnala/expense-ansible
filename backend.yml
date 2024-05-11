@@ -64,13 +64,12 @@
         state: import
         target: /app/schema/backend.sql
 
-    - name: daemon reload, start and enable the backend service
+    - name: daemon reload
+      ansible.builtin.systemd_service:
+        daemon_reload: true
+
+    - name: start and enable the backend service
       ansible.builtin.systemd_service:
         name: backend
         state: started
         enabled: yes
-        daemon_reload: true
-
-    #- name: start and enable the backend service
-     # ansible.builtin.systemd_service:
-
