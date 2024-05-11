@@ -1,10 +1,6 @@
 - name: configure the frontend server
   hosts: frontend
   become: yes
-  vars:
-    login_host: db.hkinfo.fyi
-    login_password: ExpenseApp@1
-    login_user: root
   tasks:
     - name: install nginx
       ansible.builtin.dnf:
@@ -13,7 +9,7 @@
 
     - name: start and enable nginx
       ansible.builtin.service:
-        name: frontend
+        name: nginx
         state: started
         enabled: yes
 
