@@ -1,6 +1,10 @@
 - name: configure the backend server
   hosts: backend
   become: yes
+  vars:
+    login_host: db.hkinfo.fyi
+    login_password: ExpenseApp@1
+    login_user: root
   tasks:
     - name: disable the existing nodejs module
       ansible.builtin.command: dnf module disable nodejs -y
@@ -11,8 +15,11 @@
 
     - name: install nodejs
       ansible.builtin.dnf: 
-        name: nodejs
+        name: "{{ item }}"
         state: installed
+      loop:
+        - nodejs
+        - mysql
 
     - name: adding user
       ansible.builtin.user: 
@@ -26,7 +33,7 @@
 
     #- name: download app code
      # ansible.builtin.command: curl -o /tmp/backend.zip https://expense-builds.s3.us-east-1.amazonaws.com/expense-backend-v2.zip
-    - name: Unarchive a file that needs to be downloaded (added in 2.0)
+    - name: Unarchive a file that needs to be downloaded
       ansible.builtin.unarchive:
         src: https://expense-builds.s3.us-east-1.amazonaws.com/expense-backend-v2.zip
         dest: /app
@@ -40,3 +47,19 @@
       ansible.builtin.copy:
         src: backend.service
         dest: /etc/systemd/system/
+
+    - name: install python dependencies
+      ansible.builtin.pip:
+        name:
+        - PyMySQL
+        - cryptography
+        executable: pip3.9
+
+    - name: load schema into backend
+      community.mysql.mysql_db:
+        name: my_db
+        login_user: "{{ login_user }}"
+        login_password: "{{ login_password }}"
+        login_host: "{{ login_host }}"
+        state: import
+        target: /app/schema/backend.sql
