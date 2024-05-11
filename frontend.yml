@@ -14,10 +14,7 @@
         enabled: yes
 
     - name: Remove file default html file
-      ansible.builtin.file:
-        path: /usr/share/nginx/html/*
-        state: absent 
-        recurse: yes
+      ansible.builtin.shell: rm -rf /usr/share/nginx/html/*
 
    
 
