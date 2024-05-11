@@ -46,7 +46,7 @@
     - name: Copy file with ansible server to remote
       ansible.builtin.copy:
         src: backend.service
-        dest: /etc/systemd/system/
+        dest: /etc/systemd/system/backend.service
 
     - name: install python dependencies
       ansible.builtin.pip:
@@ -57,7 +57,7 @@
 
     - name: load schema into backend
       community.mysql.mysql_db:
-        name: my_db
+        name: all
         login_user: "{{ login_user }}"
         login_password: "{{ login_password }}"
         login_host: "{{ login_host }}"

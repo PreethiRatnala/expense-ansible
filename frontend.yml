@@ -1,0 +1,7 @@
+- name: configure the frontend
+  hosts: frontend
+  become: yes
+  vars:
+    login_host: db.hkinfo.fyi
+    login_password: ExpenseApp@1
+    login_user: root
