@@ -2,7 +2,7 @@
   hosts: db
   become: yes
   vars:
-    login_hosts: 172.31.46.65
+    login_hosts: db.hkinfo.fyi
   vars_prompt:
     - name: mysql_root_password
       prompt: please enter mysql mysql_root_password

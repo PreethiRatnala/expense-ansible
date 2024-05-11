@@ -1,8 +1,8 @@
 [db]
-172.31.46.65
+db.hkinfo.fyi
 
 [backend]
-54.80.185.142
+backend.hkinfo.fyi
 
 [frontend]
-52.70.2.96
+hkinfo.fyi
